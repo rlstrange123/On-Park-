@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>OnPark</title>
+	<style>
+		body {
+			background-color: #f0f0f0;
+		}
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			background-color: #fff;
+			padding: 20px;
+			margin: 50px auto;
+			max-width: 500px;
+			border-radius: 10px;
+		}
+		.logo {
+			display: block;
+			max-width: 200px;
+			margin-bottom: 30px;
+		}
+		.form {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.payment-form {
+			margin-top: 30px;
+		}
+		.payment-form label {
+			display: block;
+			margin-bottom: 5px;
+		}
+		.payment-form input {
+			display: block;
+			width: 100%;
+			padding: 10px;
+			margin-bottom: 10px;
+			border: 1px solid #ccc;
+			border-radius: 5px;
+			box-sizing: border-box;
+		}
+		.payment-form .card-errors {
+			color: red;
+			margin-top: 10px;
+		}
+		.payment-form button {
+			background-color: #008CBA;
+			color: #fff;
+			border: none;
+			border-radius: 5px;
+			padding: 10px 20px;
+			cursor: pointer;
+			transition: background-color 0.2s ease;
+		}
+		.payment-form button:hover {
+			background-color: #005F6B;
+		}
+	</style>
+	<script src="https://js.stripe.com/v3/"></script>
+	<script>
+		// Set your publishable API key
+		Stripe.setPublishableKey('pk_test_51J5G5fLICwL5j3q74IDH0r3h9j9WJG8QF84VblYR0Kj7L13gJ8HtTjJtT2WtI8XtXELgh4Hi4cqqqOeqzfrF0sT900kbGJh0iH');
+
+		// Create a Stripe client
+		var stripe = Stripe('pk_test_51J5G5fLICwL5j3q74IDH0r3h9j9WJG8QF84VblYR0Kj7L13gJ8HtTjJtT2WtI8XtXELgh4Hi4cqqqOeqzfrF0sT900kbGJh0iH');
+
+		// Create an instance of Elements
+		var elements = stripe.elements();
+
+		// Create an instance of the card Element
+		var card = elements.create('card');
+
+		// Add an instance of the card Element into the `card-element` <div>
+		card.mount('#card-element');
+
+		// Handle form submission
+		var form = document.getElementById('payment-form');
+		form.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			// Disable the submit button to prevent repeated clicks
+			form.querySelector('button').disabled = true;
+
+			// Extract the payment information from the card Element
+			var paymentData = {
+				amount: document.getElementById('totalCost').value,
+				currency: 'usd',
+				description: 'Parking fee'
+			};
+
+		
+
